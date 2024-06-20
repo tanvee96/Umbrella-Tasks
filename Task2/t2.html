@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Task2</title>
+</head>
+
+<body>
+    <div id="wrapper"></div>
+
+    <script>
+        function planesToReachLastAirport(fuel) {
+            let planes = 0; // Count of planes hired
+            let maxReach = 0; // The furthest airport we can reach with the current plane
+            let nextMaxReach = 0; // The furthest airport we can reach after hiring the next plane
+
+            for (let i = 0; i < fuel.length; i++) {
+                if (i > maxReach) {
+                    return -1; // If we can't reach this airport, return -1
+                }
+                if (i > nextMaxReach) {
+                    planes++; // Hire a new plane
+                    nextMaxReach = maxReach; // Update nextMaxReach to maxReach
+                }
+                maxReach = Math.max(maxReach, i + fuel[i]); // Update maxReach with the furthest we can reach from this airport
+                if (maxReach >= fuel.length - 1) {
+                    return planes + 1; // If we can reach or exceed the last airport, return planes used plus one for the last segment
+                }
+            }
+            return -1; // If we exhaust all possibilities without reaching the last airport, return -1
+        }
+        
+        const fuel = [1, 6, 3, 4, 5, 0, 0, 0, 6];
+        let wrapper = document.getElementById('wrapper');
+        wrapper.innerHTML = planesToReachLastAirport(fuel);
+        console.log("Output: ", planesToReachLastAirport(fuel));
+
+    </script>
+</body>
+
+</html>

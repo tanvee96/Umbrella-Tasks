@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Task1</title>
+</head>
+
+<body>
+    <div id="wrapper"></div>
+
+    <script>
+        function planesToReachLastAirport(fuel) {
+            const N = fuel.length;
+            if (N === 0) return -1; // Edge case: if there are no airports, return -1
+            if (N === 1) return 0; // Edge case: if there is only one airport, no additional planes needed
+
+            let planesNeeded = 0;   // Number of planes needed to reach the last airport
+            let maxReachable = 0;   // The farthest airport that can be reached
+            let currentEnd = 0;     // The end of the range that can be reached with the current plane
+
+            // Iterate through each airport up to the second last one
+            for (let i = 0; i < N - 1; i++) {
+                maxReachable = Math.max(maxReachable, i + fuel[i]); // Update maxReachable to the furthest index we can reach from current airport
+
+                // If we have reached the end of the current plane's range
+                if (i === currentEnd) {
+                    planesNeeded++;  // Increment the count of planes needed
+                    currentEnd = maxReachable;  // Update the end of the range to maxReachable
+                    
+                    if (currentEnd <= i) return -1; // If we can't move further
+                }
+            }
+            return maxReachable >= N - 1 ? planesNeeded : -1; // Check if we can reach or exceed the last airport
+        }
+
+        const fuel = [2, 1, 2, 3, 1];
+        let wrapper = document.getElementById('wrapper');
+        wrapper.innerHTML = planesToReachLastAirport(fuel);
+        console.log("Output: ", planesToReachLastAirport(fuel));
+    </script>
+</body>
+
+</html>
